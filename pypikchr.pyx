@@ -11,5 +11,5 @@ cdef extern from "pikchr.h":
         int *pnHeight
     );
 
-def create_pikchr(char* in_str, char* svg_class, unsigned int flags, int width, int height):
-    pikchr(in_str, svg_class, flags, &width, &height)
+cpdef char* create_pikchr(char* in_str, char* svg_class, unsigned int flags, int width, int height):
+    return pikchr(in_str, svg_class, flags, &width, &height)
