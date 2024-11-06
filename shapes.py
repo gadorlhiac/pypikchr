@@ -1,12 +1,45 @@
-from typing import TypeAlias, Union, overload, ClassVar
-
-from pypikchr import create_pikchr
-
+from typing import TypeAlias, Union, overload, ClassVar, TypedDict, Literal, Optional
 
 Shape_T: TypeAlias = "Shape"
 
 
+class DrawingOptions(TypedDict):
+    thickness: Literal["thickness {dim}", "thick", "thin"]
+    stroke_color: Literal[
+        "invisible", "color {color}"
+    ]  # 148 std CSS colors, not case-sensitive or 24-bit int or hex
+    fill: Literal["fill {color}"]  # Same as stroke_color. Also None/Off set transparent
+
+
+TextAttributes: set[str] = {
+    "above",
+    "aligned",
+    "below",
+    "big",
+    "bold",
+    "mono",
+    "monospace",
+    "center",
+    "italic",
+    "ljust",
+    "rjust",
+    "small",
+}
+
+
 class Shape:
+    anchor_points: ClassVar[set[str]] = {
+        "nw",
+        "n",
+        "ne",
+        "e",
+        "se",
+        "s",
+        "sw",
+        "w",
+        "c",
+    }
+
     def __init__(self) -> None:
         self._shape_md: bytes = b""
         self._md: bytes = self._shape_md
@@ -52,6 +85,7 @@ class Shape:
 
 class ShapeWithText(Shape):
     def __init__(self, text: str, shape_type: str) -> None:
+        # support `fit`, `width` (wid), `height`
         self._shape_md: bytes = f'{shape_type} "{text}"'.encode()
         self._md: bytes = self._shape_md
 
