@@ -1,3 +1,8 @@
+"""Classes and utilities for basic pikchr components."""
+
+#__all__ = []
+__author__ = "Gabriel Dorlhiac"
+
 from typing import TypeAlias, Union, overload, ClassVar, TypedDict, Literal, Optional
 
 Shape_T: TypeAlias = "Shape"
