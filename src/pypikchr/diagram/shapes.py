@@ -3,7 +3,7 @@
 #__all__ = []
 __author__ = "Gabriel Dorlhiac"
 
-from typing import TypeAlias, Union, overload, ClassVar, TypedDict, Literal, Optional
+from typing import TypeAlias, Union, overload, ClassVar, TypedDict, Literal
 
 Shape_T: TypeAlias = "Shape"
 
@@ -46,59 +46,59 @@ class Shape:
     }
 
     def __init__(self) -> None:
-        self._shape_md: bytes = b""
-        self._md: bytes = self._shape_md
+        self._shape_md: str = ""
+        self._md: str = self._shape_md
 
     @property
-    def shapemd(self) -> bytes:
+    def shapemd(self) -> str:
         return self._shape_md
 
     @property
-    def md(self) -> bytes:
+    def md(self) -> str:
         return self._md
 
     @md.setter
-    def md(self, value: bytes) -> None:
+    def md(self, value: str) -> None:
         self._md = value
 
     @overload
     def __rshift__(self, right: Shape_T) -> Shape_T: ...
     @overload
-    def __rshift__(self, right: bytes) -> Shape_T: ...
+    def __rshift__(self, right: str) -> Shape_T: ...
 
-    def __rshift__(self, right: Union[Shape_T, bytes]) -> Shape_T:
+    def __rshift__(self, right: Union[Shape_T, str]) -> Shape_T:
         if isinstance(right, Shape):
-            self._md = self._shape_md + b";" + right.shapemd
+            self._md = self._shape_md + ";" + right.shapemd
             right.md = self._md
         else:
-            self._md = self._shape_md + b";" + right
+            self._md = self._shape_md + ";" + right
         return self
 
     @overload
     def __lshift__(self, left: Shape_T) -> Shape_T: ...
     @overload
-    def __lshift__(self, left: bytes) -> Shape_T: ...
+    def __lshift__(self, left: str) -> Shape_T: ...
 
-    def __lshift__(self, left: Union[Shape_T, bytes]) -> Shape_T:
+    def __lshift__(self, left: Union[Shape_T, str]) -> Shape_T:
         if isinstance(left, Shape):
-            self._md = left.shapemd + b";" + self._shape_md
+            self._md = left.shapemd + ";" + self._shape_md
             left.md = self._md
         else:
-            self._md = left + b";" + self._shape_md
+            self._md = left + ";" + self._shape_md
         return self
 
 
 class ShapeWithText(Shape):
     def __init__(self, text: str, shape_type: str) -> None:
         # support `fit`, `width` (wid), `height`
-        self._shape_md: bytes = f'{shape_type} "{text}"'.encode()
-        self._md: bytes = self._shape_md
+        self._shape_md: str = f'{shape_type} "{text}"'
+        self._md: str = self._shape_md
 
 
 class ShapeWithoutText(Shape):
     def __init__(self, shape_type: str) -> None:
-        self._shape_md: bytes = f"{shape_type}".encode()
-        self._md: bytes = self._shape_md
+        self._shape_md: str = f"{shape_type}"
+        self._md: str = self._shape_md
 
 
 class Box(ShapeWithText):

@@ -1,17 +1,13 @@
 import io
 from distutils.core import setup
 from distutils.extension import Extension
-from setuptools import find_packages
-
-from Cython.Build import cythonize
 
 pypikchr_ext: Extension = Extension(
     name="pypikchr.util.pikchr",
-    sources=["src/c/pypikchr.pyx", "src/c/pikchr.c"],
+    sources=["src/c/pypikchr.c", "src/c/pikchr.c"],
     include_dirs=["include"],
     language="stdc",
 )
-pypikchr_ext.cython_directives = {"embed_signature": True}
 
 version_fptr: io.TextIOWrapper
 version: str
@@ -22,9 +18,9 @@ setup(
     name="pypikchr",
     version=version,
     description="Small Python wrapper for pikchr markup language.",
-    ext_modules=cythonize(pypikchr_ext, annotate=True),
+    ext_modules=[pypikchr_ext],
     include_package_data=True,
-    packages=["pypikchr", "pypikchr.diagram", "pypikchr.util"],#find_packages(where="src"),
+    packages=["pypikchr", "pypikchr.diagram", "pypikchr.util"],
     package_dir={"":"src"},
     platforms="any",
 )

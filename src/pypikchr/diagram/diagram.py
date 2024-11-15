@@ -10,11 +10,11 @@ from pypikchr.diagram.shapes import Shape_T
 from pypikchr.util.pikchr import create_pikchr
 
 
-class Direction(bytes, Enum):
-    right = b"right"
-    down = b"down"
-    left = b"left"
-    up = b"up"
+class Direction(str, Enum):
+    right = "right"
+    down = "down"
+    left = "left"
+    up = "up"
 
 
 class Diagram:
@@ -25,6 +25,6 @@ class Diagram:
 
     def __str__(self) -> str:
         if self._diagram is not None:
-            return create_pikchr(self._diagram.md, b"", 0, 0, 0).decode()
+            return create_pikchr(self._diagram.md, "", 0, 0, 0)
         else:
             return ""
