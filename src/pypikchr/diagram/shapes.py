@@ -1,6 +1,6 @@
 """Classes and utilities for basic pikchr components."""
 
-#__all__ = []
+# __all__ = []
 __author__ = "Gabriel Dorlhiac"
 
 from typing import TypeAlias, Union, overload, ClassVar, TypedDict, Literal
@@ -63,6 +63,7 @@ class Shape:
 
     @overload
     def __rshift__(self, right: Shape_T) -> Shape_T: ...
+
     @overload
     def __rshift__(self, right: str) -> Shape_T: ...
 
@@ -76,6 +77,7 @@ class Shape:
 
     @overload
     def __lshift__(self, left: Shape_T) -> Shape_T: ...
+
     @overload
     def __lshift__(self, left: str) -> Shape_T: ...
 

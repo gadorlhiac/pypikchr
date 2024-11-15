@@ -8072,7 +8072,7 @@ int main(int argc, char **argv){
   if( !bSvgOnly ){
     printf("</body></html>\n");
   }
-  return exitCode ? EXIT_FAILURE : EXIT_SUCCESS; 
+  return exitCode ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 #endif /* PIKCHR_SHELL */
 

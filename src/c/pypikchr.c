@@ -6,13 +6,16 @@
   #error "Python headers required"
 #endif
 
+#include <stdio.h>
+
 #define MODULE_NAME "pypikchr.util.pikchr"
 #define MODULE_DOC "Thin Python wrapper around the pikchr C library."
-#define MODULE_PER_INTERPRET_SIZE -1
+#define MODULE_PER_INTERPRET_SIZE -1 // Do not support sub-interpreters
 
 
 static PyObject *PikchrError;
 static PyObject *pikchr_create_pikchr(PyObject*, PyObject*);
+static void on_free();
 
 static PyMethodDef pikchr_methods[] = {
   {"create_pikchr", pikchr_create_pikchr, METH_VARARGS, "Compile pikchr markdown."},
@@ -20,14 +23,23 @@ static PyMethodDef pikchr_methods[] = {
 };
 
 static struct PyModuleDef pikchr_module = {
-  PyModuleDef_HEAD_INIT,
-  MODULE_NAME,
-  MODULE_DOC,
-  MODULE_PER_INTERPRET_SIZE,
-  pikchr_methods
+    PyModuleDef_HEAD_INIT,
+    MODULE_NAME,
+    MODULE_DOC,
+    MODULE_PER_INTERPRET_SIZE,
+    pikchr_methods,
+    NULL, // m_slots
+    NULL, // m_traverse
+    NULL, // m_clear
+#ifdef PYPIKCHR_DEBUG
+    on_free
+#else
+    NULL
+#endif
 };
 
-PyMODINIT_FUNC PyInit_pikchr(void) {
+PyMODINIT_FUNC PyInit_pikchr(void)
+{
   PyObject *m;
 
   m = PyModule_Create(&pikchr_module);
@@ -57,13 +69,13 @@ static PyObject *pikchr_create_pikchr(PyObject *self, PyObject *args)
     return NULL;
   }
 
-  char *pikchr_md = pikchr(in_str, svg_class, flags, &width, &height);
-  if (!pikchr_md) {
+  char *pikchr_svg = pikchr(in_str, svg_class, flags, &width, &height);
+  if (!pikchr_svg) {
     PyErr_SetString(PikchrError, "Error in pikchr C call.");
     return NULL;
   }
 
-  PyObject *str = PyUnicode_FromString(pikchr_md);
+  PyObject *str = PyUnicode_FromString(pikchr_svg);
   if (!str) {
     PyErr_SetString(PikchrError, "Cannot convert to Python string.");
     return NULL;
@@ -71,3 +83,9 @@ static PyObject *pikchr_create_pikchr(PyObject *self, PyObject *args)
 
   return str;
 }
+
+#ifdef PYPIKCHR_DEBUG
+static void on_free() {
+  printf("Pikchr resources released.\n");
+}
+#endif
