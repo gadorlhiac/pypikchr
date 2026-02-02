@@ -12,6 +12,7 @@ class CustomBuildHook(BuildHookInterface):
             return
 
         build_data["pure_python"] = False
+        build_data["infer_tag"] = True
 
         # Paths are relative to project root
         extension: Extension = Extension(
