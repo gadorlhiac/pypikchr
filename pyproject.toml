@@ -44,6 +44,7 @@ include = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pypikchr"]
+pure-python = false
 
 [tool.hatch.build.targets.wheel.hooks.custom]
 # The custom build hook in hatch_build.py will handle C extension compilation
