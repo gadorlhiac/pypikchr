@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with pypikchr. If not, see <https://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 """Classes and utilities for holding a full pikchr diagram."""
 
 from enum import Enum

@@ -17,21 +17,29 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with pypikchr. If not, see <https://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 """Classes and utilities for basic pikchr components."""
 
 __author__ = "Gabriel Dorlhiac"
 
+import sys
 import warnings
 from typing import (
+    TYPE_CHECKING,
     Any,
     ClassVar,
     Literal,
     Optional,
-    TypeAlias,
     TypedDict,
     Union,
     overload,
 )
+
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+else:
+    TypeAlias = Any
 
 Shape_T: TypeAlias = "Shape"
 
