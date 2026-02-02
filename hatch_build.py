@@ -11,6 +11,8 @@ class CustomBuildHook(BuildHookInterface):
         if self.target_name != "wheel":
             return
 
+        build_data["pure_python"] = False
+
         # Paths are relative to project root
         extension: Extension = Extension(
             name="pypikchr.util.pikchr",
