@@ -26,7 +26,8 @@ jobs:
         env:
           # Build for all supported versions
           CIBW_SKIP: "pp* cp36-* cp37-*"
-          CIBW_TEST_COMMAND: "python -m unittest discover -s {project}/tests -p 'test_*.py'"
+          CIBW_TEST_EXTRAS: test
+          CIBW_TEST_COMMAND: "pytest {project}/tests"
 
       - uses: actions/upload-artifact@v4
         with:
