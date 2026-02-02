@@ -37,3 +37,15 @@ class CustomBuildHook(BuildHookInterface):
                     full_path: str = os.path.join(root, filename)
                     rel_path: str = os.path.relpath(full_path, build_lib)
                     build_data["force_include"][full_path] = rel_path
+
+        # Can optionally install tests, but map them under the pypikchr package
+        # to avoid collisions if this is chosen
+        if os.environ.get("PYPIKCHR_INSTALL_TESTS") == "1":
+            tests_dir: str = os.path.abspath("tests")
+            if os.path.isdir(tests_dir):
+                for root, dirs, files in os.walk(tests_dir):
+                    for filename in files:
+                        full_path = os.path.join(root, filename)
+                        rel_path = os.path.relpath(full_path, os.path.dirname(tests_dir))
+                        target_path: str = os.path.join("pypikchr", rel_path)
+                        build_data["force_include"][full_path] = target_path

@@ -122,6 +122,38 @@ class Shape:
             self._attributes["at"] = pos
         return self
 
+    def right_of(self, other: Shape_T, offset: Optional[float] = None) -> Shape_T:
+        """Position this shape to the right of another shape."""
+        pos = f"{other.name}.e"
+        if offset is not None:
+            pos += f" + ({offset}, 0)"
+        self._attributes["at"] = pos
+        return self
+
+    def left_of(self, other: Shape_T, offset: Optional[float] = None) -> Shape_T:
+        """Position this shape to the left of another shape."""
+        pos = f"{other.name}.w"
+        if offset is not None:
+            pos += f" - ({offset}, 0)"
+        self._attributes["at"] = pos
+        return self
+
+    def above(self, other: Shape_T, offset: Optional[float] = None) -> Shape_T:
+        """Position this shape above another shape."""
+        pos = f"{other.name}.n"
+        if offset is not None:
+            pos += f" + (0, {offset})"
+        self._attributes["at"] = pos
+        return self
+
+    def below(self, other: Shape_T, offset: Optional[float] = None) -> Shape_T:
+        """Position this shape below another shape."""
+        pos = f"{other.name}.s"
+        if offset is not None:
+            pos += f" - (0, {offset})"
+        self._attributes["at"] = pos
+        return self
+
     def from_pos(self, pos: Union[str, Shape_T]) -> Shape_T:
         if isinstance(pos, Shape):
             self._attributes["from"] = pos.name
@@ -219,6 +251,7 @@ class Shape:
         return f"{self._md_prefix}{content}{self._md_suffix}"
 
     def __rshift__(self, other: Union[Shape_T, str]) -> Shape_T:
+        """The >> operator can be used to chain shapes."""
         if isinstance(other, Shape):
             other._md_prefix = self.md + "; "
             return other

@@ -31,9 +31,6 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-# [tool.hatch.metadata.dependencies]
-# List your dependencies here (if any)
-
 [tool.hatch.build.targets.sdist]
 include = [
     "/src",
@@ -44,8 +41,9 @@ include = [
 packages = ["src/pypikchr"]
 
 [tool.hatch.build.targets.wheel.hooks.custom]
+# The custom build hook in hatch_build.py will handle C extension compilation
+# and optional inclusion of the 'tests' directory if PYPIKCHR_INSTALL_TESTS is set.
 
-# Standard src layout is now handled in targets
 
 [tool.black]
 line-length = 88
