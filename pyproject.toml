@@ -9,15 +9,12 @@ requires-python = ">=3.8"
 dynamic = ["version"]
 dependencies = []
 
-[tool.hatch.version]
-path = "src/pypikchr/__init__.py"
-description = "Small Python wrapper for Pikchr markup language."
-long-description = "file: README.md"
-long-description-content-type = "text/markdown"
-author = "Gabriel Dorlhiac"
-author-email = "gabriel@dorlhiac.com"
-url = "https://github.com/gadorlhiac/pypikchr"
-license = "AGPL-3.0-or-later"
+authors = [
+    { name = "Gabriel Dorlhiac", email = "gabriel@dorlhiac.com" },
+]
+license = { text = "AGPL-3.0-or-later" }
+readme = "README.md"
+urls = { Homepage = "https://github.com/gadorlhiac/pypikchr" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -27,9 +24,12 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: GNU Affero General Public License v3.0 (AGPLv3)",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Operating System :: OS Independent",
 ]
+
+[tool.hatch.version]
+path = "src/pypikchr/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = [

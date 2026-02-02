@@ -74,13 +74,4 @@ arrow from b1.s to c1.n dashed
 ```
 
 
-### Shapes
-
-### Modifying Attributes
-
-
-
-
-
-
 
