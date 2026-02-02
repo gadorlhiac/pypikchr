@@ -28,6 +28,11 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+
 [tool.hatch.version]
 path = "src/pypikchr/__init__.py"
 

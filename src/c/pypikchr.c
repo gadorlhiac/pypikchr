@@ -68,11 +68,22 @@ PyMODINIT_FUNC PyInit_pikchr(void)
     return NULL;
 
   PikchrError = PyErr_NewException(MODULE_NAME".PikchrException", NULL, NULL);
+
+#if PY_VERSION_HEX < 0x030A0000
+  Py_INCREF(PikchrError);
+  if (PyModule_AddObject(m, "PikchrException", PikchrError) < 0) {
+    Py_DECREF(PikchrError);
+    Py_CLEAR(PikchrError);
+    Py_DECREF(m);
+    return NULL;
+  }
+#else
   if (PyModule_AddObjectRef(m, "PikchrException", PikchrError) < 0) {
     Py_CLEAR(PikchrError);
     Py_DECREF(m);
     return NULL;
   }
+#endif
 
   return m;
 }
