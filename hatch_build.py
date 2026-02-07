@@ -51,6 +51,8 @@ class CustomBuildHook(BuildHookInterface):
                 for root, dirs, files in os.walk(tests_dir):
                     for filename in files:
                         full_path = os.path.join(root, filename)
-                        rel_path = os.path.relpath(full_path, os.path.dirname(tests_dir))
+                        rel_path = os.path.relpath(
+                            full_path, os.path.dirname(tests_dir)
+                        )
                         target_path: str = os.path.join("pypikchr", rel_path)
                         build_data["force_include"][full_path] = target_path

@@ -14,7 +14,7 @@ authors = [
 ]
 license = { text = "AGPL-3.0-or-later" }
 readme = "README.md"
-urls = { Homepage = "https://github.com/gadorlhiac/pypikchr" }
+urls = { Homepage = "https://github.com/gadorlhiac/pypikchr", Changelog = "https://github.com/gadorlhiac/pypikchr/blob/main/CHANGELOG.md" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",

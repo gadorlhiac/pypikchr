@@ -59,13 +59,18 @@ class Shape:
         "c",
     }
 
+    _id_counter: ClassVar[int] = 0
+
     def __init__(self, shape_type: str, text: Optional[str] = None) -> None:
         self._shape_type = shape_type
         self._text = text
+        self._url: Optional[str] = None
         self._label: Optional[str] = None
         self._attributes: dict[str, Any] = {}
         self._md_prefix: str = ""
         self._md_suffix: str = ""
+        Shape._id_counter += 1
+        self._id = Shape._id_counter
 
     @property
     def name(self) -> str:
@@ -89,6 +94,15 @@ class Shape:
                 )
                 break  # Only need to warn once
         self._label = upper_case
+        return self
+
+    def url(self, link: str) -> Shape_T:
+        """Set a URL for the shape.
+
+        This URL will be embedded in the generated SVG as a hyperlink wrapping
+        the shape and its text.
+        """
+        self._url = link
         return self
 
     def width(self, val: Union[float, str]) -> Shape_T:
@@ -160,6 +174,13 @@ class Shape:
         if offset is not None:
             pos += f" - (0, {offset})"
         self._attributes["at"] = pos
+        return self
+
+    def align_to(self, other: Shape_T, anchor: str = "c") -> Shape_T:
+        """Align this shape's center to an anchor of another shape."""
+        if anchor not in self.anchor_points:
+            raise ValueError(f"Invalid anchor: {anchor}")
+        self._attributes["at"] = f"{other.name}.{anchor}"
         return self
 
     def from_pos(self, pos: Union[str, Shape_T]) -> Shape_T:
@@ -242,11 +263,26 @@ class Shape:
 
     @property
     def md(self) -> str:
+        return self.get_md(include_markers=False)
+
+    def get_md(self, include_markers: bool = False) -> str:
         parts = []
         if self._label:
             parts.append(f"{self._label}:")
         parts.append(self._shape_type)
-        if self._text:
+
+        if include_markers:
+            # We add a marker to identify where this shape's elements end in the SVG
+            marker = f"[[pypikchr-id:{self._id}"
+            if self._url:
+                marker += f":url:{self._url}"
+            marker += "]]"
+
+            if self._text:
+                parts.append(f'"{self._text} {marker}"')
+            else:
+                parts.append(f'"{marker}"')
+        elif self._text:
             parts.append(f'"{self._text}"')
 
         for k, v in self._attributes.items():

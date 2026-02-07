@@ -30,6 +30,22 @@ class TestShapes(unittest.TestCase):
         self.assertIn('B1: box "B1"', d.md)
         self.assertIn('B2: box "B2" at B1.s', d.md)
 
+    def test_dimensions(self):
+        """Verify that width, height, radius, diameter are correctly formatted."""
+        b = Box("Test").width(2.0).height(1.5)
+        md = b.md
+        self.assertIn("width 2.0", md)
+        self.assertIn("height 1.5", md)
+
+    def test_styles(self):
+        """Verify thick, thin, dotted, dashed, fill and color attributes."""
+        b = Box("Style").thick().dotted().fill("red").color("blue")
+        md = b.md
+        self.assertIn("thick", md)
+        self.assertIn("dotted", md)
+        self.assertIn("fill red", md)
+        self.assertIn("color blue", md)
+
 
 if __name__ == "__main__":
     unittest.main()
